@@ -21,20 +21,20 @@ The ability to compensate for disturbances when following a Dubins path can be i
 `DubinsSolver x0 y0 h0 x1 y1 h1 R solnFile`
 - See test programs under `./programs` for examples of how to define a `RobustDubins::Problem` to supply to the `RobustDubins::Solver` and obtain a `RobustDubins::Path`. Briefly, the syntax is:
 ```
-	// define the problem
-	RobustDubins::Problem problemStatement;
-  problemStatement.set_stateInitial(x1,y1,h1deg*M_PI/180.0);	
-	problemStatement.set_stateFinal(x1,y1,h1deg*M_PI/180.0);	
+// define the problem
+RobustDubins::Problem problemStatement;
+problemStatement.set_stateInitial(x1,y1,h1deg*M_PI/180.0);	
+problemStatement.set_stateFinal(x1,y1,h1deg*M_PI/180.0);	
 
-  // run the solver
-	RobustDubins::Solver rds; 
-  rds.set_problemStatement(problemStatement);
-	rds.solve();
-  rds.print(); // print output to screen (all candidates)
+// run the solver
+RobustDubins::Solver rds; 
+rds.set_problemStatement(problemStatement);
+rds.solve();
+rds.print(); // print output to screen (all candidates)
 
-  // get the optimal path 
-  RobustDubins::Path optimalPath = rds.get_optimalPath();
-  optimalPath.print(); // print details of optimal path
+// get the optimal path 
+RobustDubins::Path optimalPath = rds.get_optimalPath();
+optimalPath.print(); // print details of optimal path
 ```
 - `clean.sh` removes all compiled files, build files, and temporary files 
 
