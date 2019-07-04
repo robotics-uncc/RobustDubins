@@ -14,7 +14,7 @@ The ability to compensate for disturbances when following a Dubins path can be i
   for generating .m files for plotting
 
 ## Build instructions:
-- Run `./build.sh` to create a library in: `./lib` and executables in: `./bin`
+- Run `./build.sh` to create a library in `./lib` and executables in `./bin`
 
 ## Usage instructions:
 - Either link to and use the library in your own code, or run the command line DubinsSolver command with syntax:
