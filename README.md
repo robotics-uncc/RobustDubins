@@ -4,7 +4,7 @@ The ability to compensate for disturbances when following a Dubins path can be i
 
 
 <p align="center"> 
-<img src="http://arturwolek.com/img/RobustDubins.png" width="300">
+<img src="https://coefs.uncc.edu/awolek/files/2021/01/RobustDubins.png" width="300">
 </p>
 
 ## Dependencies:
