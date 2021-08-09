@@ -181,11 +181,15 @@ void RobustDubins::Path::computePathHistory(){
     double arc_length_tot = m_aParamUnsigned + m_bParamUnsigned 
                             + m_cParamUnsigned;
     if ( !m_userInputNumWpts && !m_userInputSpacing ){
-      double nom_spacing = m_minTurnRadius/10;
+      double nom_spacing = m_minTurnRadius/20; //TODO: remove this hardcode
       m_num_pts = std::floor(arc_length_tot/nom_spacing);
     }
     else if ( m_userInputSpacing ){ 
       m_num_pts = std::floor(arc_length_tot/m_nom_spacing); 
+    }
+    // fix for very small arclengths
+    if ( m_num_pts < 2 ){
+      m_num_pts = 2;
     }
     vd arcPts = MathTools::linspace(0, arc_length_tot, m_num_pts);
     vd currentPoint(3);
@@ -374,6 +378,67 @@ double RobustDubins::Path::delyStraight( const double & psi0,
   return length*sin(psi0);
 }
 
+double RobustDubins::Path::get_pathTimeInCurrents( double vehicleSpeed, double curMagnitude, 
+                               double curDirectionRadENU ){
+  // assume curDirectionRad provided is measured from east CCW
 
+  // convert to NED since equations require iter
+  double curDirectionRadNED = MathTools::fmodPos( M_PI/2.0-curDirectionRadENU, 2.0*M_PI); 
+  
+  double arc_length_tot = m_aParamUnsigned + m_bParamUnsigned 
+                          + m_cParamUnsigned;
+  if ( !m_userInputNumWpts && !m_userInputSpacing ){
+    double nom_spacing = m_minTurnRadius/20;
+    m_num_pts = std::floor(arc_length_tot/nom_spacing);
+  }
+  else if ( m_userInputSpacing ){ 
+    m_num_pts = std::floor(arc_length_tot/m_nom_spacing); 
+  }
+  // fix for very small arclengths
+  if ( m_num_pts < 2 ){
+    m_num_pts = 2;
+  }
+  vd arcPts = MathTools::linspace(0, arc_length_tot, m_num_pts);
+  vd currentPoint(3);
+  std::vector<double> x(m_num_pts);
+  std::vector<double> y(m_num_pts);
+  std::vector<double> h(m_num_pts);
+  double pathTime = 0;
+  double xprev = 0;
+  double xcur = 0;
+  double yprev = 0;
+  double ycur = 0;
+  // 
+  double eps = curMagnitude/vehicleSpeed;
+  double dx, dy, ds, chiNED, vg, psiNED;
+  for (int i = 0; i < m_num_pts; i++ ){
+		  RobustDubins::computeDubinsPoint( m_pathType, 
+	                                      m_aParamUnsigned, 
+                                        m_bParamUnsigned, 
+                                        m_cParamUnsigned,
+                                        m_minTurnRadius,
+                                        m_xInitial,
+                                        m_yInitial,
+                                        m_hInitial,
+                                        arcPts[i],
+                                        currentPoint );      
+    xprev = xcur;
+    yprev = ycur;
+    xcur = currentPoint[0];
+    ycur = currentPoint[1];
+    if (i > 0){
+      dx = xcur - xprev;
+      dy = ycur - yprev;
+      ds = sqrt( dx*dx + dy*dy );
+      // following equations assume x is north, y is east, but dubins 
+      // planner has x east and y north so 
+      double chiNED = atan2(dx,dy);
+      psiNED = chiNED - asin(eps*sin(curDirectionRadNED - chiNED));
+      vg = vehicleSpeed*sqrt(1.0 + eps*(eps + 2*cos(curDirectionRadNED - psiNED)));
+      pathTime = pathTime + ds/vg;
+    }    
+  }
+  return pathTime;
+}
 
 

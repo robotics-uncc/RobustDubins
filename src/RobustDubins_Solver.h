@@ -103,6 +103,8 @@ public:
 	RobustDubins::Path get_RSR(){return m_RSR;};
 	RobustDubins::Path get_optimalPath();
   double get_optCost(){return m_optCost;};
+  double get_optPathTimeInCurrents( double vehicleSpeed, double curMagnitude, 
+                                    double curDirectionRad );
 
 	int get_optimalSolutionID(){return m_optimalSolutionID;};
   void get_optimalWaypoints(vd &x, vd &y, vd &h);

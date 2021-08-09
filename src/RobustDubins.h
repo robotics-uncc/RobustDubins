@@ -1,7 +1,9 @@
 // -------------------------------------------------------------------
 // RobustDubinsPlanner C++ Library - Master Header File
 // -------------------------------------------------------------------
-// Artur Wolek
+// Artur Wolek, artur.wolek.ctr@nrl.navy.mil
+// Physical Acoustics Branch (Code 7130)
+// Naval Research Laboratory
 
 // Created: 29-Nov-2015
 // Modified: 26-Feb-2016

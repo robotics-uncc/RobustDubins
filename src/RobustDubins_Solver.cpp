@@ -614,3 +614,33 @@ void RobustDubins::Solver::get_optimalWaypointsSetSpacing( vd &x, vd &y, vd &h, 
   h = m_solnPtrs[optSolnID]->get_hHistory(); 
 }
 
+double RobustDubins::Solver::get_optPathTimeInCurrents( double vehicleSpeed, double curMagnitude, 
+                                                        double curDirectionRad ){
+	if (m_optimalSolutionID == 0){
+		return m_LSL.get_pathTimeInCurrents( vehicleSpeed, curMagnitude, curDirectionRad );
+	}
+	else if (m_optimalSolutionID == 1){
+		return m_LSR.get_pathTimeInCurrents( vehicleSpeed, curMagnitude, curDirectionRad );
+	}
+	else if (m_optimalSolutionID == 2){
+		return m_RSL.get_pathTimeInCurrents( vehicleSpeed, curMagnitude, curDirectionRad );
+	}
+	else if (m_optimalSolutionID == 3){
+		return m_RSR.get_pathTimeInCurrents( vehicleSpeed, curMagnitude, curDirectionRad );
+	}
+	else if (m_optimalSolutionID == 4){	
+		return m_LRL.get_pathTimeInCurrents( vehicleSpeed, curMagnitude, curDirectionRad );
+	}
+	else if (m_optimalSolutionID == 5){
+		return m_RLR.get_pathTimeInCurrents( vehicleSpeed, curMagnitude, curDirectionRad );
+	}
+	// when two solutions exist the one beginning with a left turn is returned
+	else if (m_optimalSolutionID == 6){
+		return m_LSL.get_pathTimeInCurrents( vehicleSpeed, curMagnitude, curDirectionRad );
+	}
+	else if (m_optimalSolutionID == 7){	
+		return m_LRL.get_pathTimeInCurrents( vehicleSpeed, curMagnitude, curDirectionRad );
+	}
+}
+
+

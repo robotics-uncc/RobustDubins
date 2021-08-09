@@ -129,7 +129,18 @@ bool RobustDubins::computeDubinsPoint(const std::string & pathType,
   // error-checking 
   double tol = 0.001*R;
   #ifndef NDEBUG
-  assert(arclength >= 0);
+//  printf(" pathType = %s \n ", pathType.c_str() );
+//  printf(" aUnsigned = %3.3f \n", aUnsigned);
+//  printf(" bUnsigned = %3.3f \n", bUnsigned);
+//  printf(" cUnsigned = %3.3f \n", cUnsigned);
+//  printf(" R = %3.3f \n", R);
+//  printf(" xInit = %3.3f \n", xInit);
+//  printf(" yInit = %3.3f \n", yInit);
+//  printf(" arclength = %3.3f \n", arclength);
+//  printf(" hInit = %3.3f \n", hInit);
+
+  //printf("arclength = %3.3f \n ", arclength);
+  assert(arclength >= 0 && "Assert failure: arclength >= 0");
   assert(arclength <= aUnsigned + cUnsigned + bUnsigned + tol);
   assert(R > 0);
   #endif

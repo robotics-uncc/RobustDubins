@@ -184,7 +184,8 @@ public:
 	double get_yFinal();
 	double get_hFinal();
 	double get_cost(){return m_cost;};
-
+  double get_pathTimeInCurrents( double vehicleSpeed, double curMagnitude, 
+                                 double curDirectionRad );
 
 	vd get_timeHistory();
 	vd get_xHistory();
