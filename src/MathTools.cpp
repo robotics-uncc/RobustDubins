@@ -62,27 +62,30 @@ double MathTools::polarDistanceSigned(double a, double b){
 }
 
 std::vector<int> MathTools::minIndicesWithTolerance(
-		                                            arma::vec testVector, 
+                      std::vector<double> testVector,
+                      // arma::vec testVector,
                                                 double tolerance){
-	// initialize vector of min indices
-	std::vector<int> minIndices;
-	// store index of smallest value in testVector
-  arma::uword minInd;
-	// store smallest value for reference
-	double minValueRef = testVector.min(minInd);
-	minIndices.push_back((int) minInd); 
-	// set this element to largest possible value since it has been recorded
-	testVector(minInd) = std::numeric_limits<double>::max(); 
-	int i = 1;
-	// check if there are additional minimum values within the specified tol
-	while ( std::abs(testVector.min(minInd) - minValueRef) <= tolerance ){
-		minIndices.push_back((int) minInd); // store additional index
-		// set to largest possible value	
-		testVector(minInd) = std::numeric_limits<double>::max(); 
-		i++;
-	}
+   // initialize vector of min indices
+   std::vector<int> minIndices;
+   // store index of smallest value in testVector
+   //arma::uword minInd;
+   int minInd;
+   // store smallest value for reference
+   double minValueRef = std::numeric_limits<double>::max();
+   for(int i = 0; i < testVector.size(); i++)
+     if(minValueRef > testVector[i]) { minValueRef = testVector[i]; minInd = i;}
+   //double minValueRef = testVector.min(minInd);
+   minIndices.push_back(minInd);
+   // set this element to largest possible value since it has been recorded
+   testVector[minInd] = std::numeric_limits<double>::max();
+   //int i = 1;
+   for(int i = 0; i < testVector.size(); i++){
+     if (std::abs(testVector[i] - minValueRef) <= tolerance)
+       minIndices.push_back(i);
+   }
+  
   //MathTools::debugPrintVector(minIndices,true);
-	return minIndices;
+   return minIndices;
 }
 
 void MathTools::append(std::vector<double> &baseVector, std::vector<double> &appendVector){

@@ -12,7 +12,7 @@
 #include<stdlib.h>
 #include<random>
 // external 
-#include<armadillo>
+// #include<armadillo>
 
 #ifndef MATH_TOOLS_H
 #define MATH_TOOLS_H
@@ -41,7 +41,7 @@ double polarDistanceSigned(double a, double b);
 double distance(std::vector<double> referenceVector, 
 		                       std::vector<double> testVector);
 
-std::vector<int> minIndicesWithTolerance( arma::vec testVector, 
+std::vector<int> minIndicesWithTolerance( std::vector<double> testVector, // arma::vec testVector, 
                                           double tolerance);
 
 void append(std::vector<double> &baseVector, std::vector<double> &appendVector);
